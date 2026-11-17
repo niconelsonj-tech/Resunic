@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MabuData: resumos e quizzes a partir de PDFs e slides</title>
+<meta name="description" content="Envie o PDF ou os slides da aula e receba um resumo curto, as fórmulas separadas e um quiz com explicação. Feito para estudar no telemóvel.">
+<!--SEO-->
+<link rel="canonical" href="https://mabudata.vercel.app/">
+<link rel="alternate" hreflang="pt-MZ" href="https://mabudata.vercel.app/">
+<link rel="alternate" hreflang="pt-BR" href="https://mabudata.vercel.app/pt-br">
+<link rel="alternate" hreflang="en" href="https://mabudata.vercel.app/en">
+<link rel="alternate" hreflang="es" href="https://mabudata.vercel.app/es">
+<link rel="alternate" hreflang="x-default" href="https://mabudata.vercel.app/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MabuData">
+<meta property="og:locale" content="pt_PT">
+<meta property="og:title" content="MabuData: resumos e quizzes a partir de PDFs e slides">
+<meta property="og:description" content="Envie o PDF ou os slides da aula e receba um resumo curto, as fórmulas separadas e um quiz com explicação. Feito para estudar no telemóvel.">
+<meta property="og:url" content="https://mabudata.vercel.app/">
+<meta property="og:image" content="https://mabudata.vercel.app/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="MabuData: do PDF da aula ao resumo e ao quiz">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MabuData: resumos e quizzes a partir de PDFs e slides">
+<meta name="twitter:description" content="Envie o PDF ou os slides da aula e receba um resumo curto, as fórmulas separadas e um quiz com explicação. Feito para estudar no telemóvel.">
+<meta name="twitter:image" content="https://mabudata.vercel.app/og-image.png">
+<meta name="twitter:image:alt" content="MabuData: do PDF da aula ao resumo e ao quiz">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://mabudata.vercel.app/#site","url":"https://mabudata.vercel.app/","name":"MabuData","inLanguage":"pt"},{"@type":"WebApplication","name":"MabuData","url":"https://mabudata.vercel.app/","description":"Envie o PDF ou os slides da aula e receba um resumo curto, as fórmulas separadas e um quiz com explicação. Feito para estudar no telemóvel.","applicationCategory":"EducationalApplication","operatingSystem":"Web, Android, iOS","inLanguage":"pt","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"featureList":["Resumos de PDF e PPTX","Fórmulas e definições separadas","Quizzes em três níveis","Revisão espaçada"],"image":"https://mabudata.vercel.app/og-image.png"}]}</script>
+<!--GSC-->
+<!--/SEO-->
+<meta name="theme-color" content="#fbfaf4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1b2823" media="(prefers-color-scheme: dark)">
+<!--FONTS-->
+<link rel="preload" href="/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:200 800;font-display:swap;src:url(/fonts/bricolage-latin.woff2) format("woff2")}@font-face{font-family:"Caveat";font-style:normal;font-weight:400 700;font-display:swap;src:url(/fonts/caveat-latin.woff2) format("woff2")}</style>
+<!--/FONTS-->
+<style>
+:root{--bg:#f4f5f1;--card:#fff;--line:#d6dbd2;--tx:#10231d;--mut:#586861;--pri:#12483a;--pt:#fff;--pri2:#12483a;--ok:#1f7a4d;--bad:#b83227;--gold:#ffe14d;color-scheme:light dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a16;--card:#16251f;--line:#2a3d35;--tx:#eaf1ec;--mut:#9db0a6;--pri:#8fd9b8;--pt:#08201a;--pri2:#8fd9b8;--ok:#5fd39b;--bad:#ff8f84}}
+:root[data-theme="dark"]{--bg:#0f1a16;--card:#16251f;--line:#2a3d35;--tx:#eaf1ec;--mut:#9db0a6;--pri:#8fd9b8;--pt:#08201a;--pri2:#8fd9b8;--ok:#5fd39b;--bad:#ff8f84}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 "Bricolage Grotesque",system-ui,sans-serif;font-variant-numeric:tabular-nums}
+#app{max-width:520px;margin:auto;padding:20px 18px 100px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:18px}.top h1{flex:1;font-size:1.15rem;font-weight:800;letter-spacing:-.01em;margin:0}
+.pill{background:none;border:1px solid var(--line);color:var(--tx);border-radius:6px;padding:6px 10px;font:inherit;font-size:.85rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.ic{width:40px;height:40px;border-radius:8px;border:1px solid var(--line);background:none;color:var(--tx);font:inherit;cursor:pointer;flex:none}
+.hello{font-size:1.7rem;font-weight:800;line-height:1.15;letter-spacing:-.02em}.hello b{color:var(--pri2)}
+.mut{color:var(--mut)}small{font-size:.82rem}.c{text-align:center}
+h2.h{font-size:1.1rem;margin:22px 0 2px;letter-spacing:-.01em}
+mark,.fm{background:var(--gold);color:#10231d}mark{padding:0 .12em}
+.drop{border:1.5px dashed var(--mut);border-radius:8px;padding:24px 18px;cursor:pointer;margin-bottom:8px}.drop svg{width:30px;height:30px;stroke:var(--pri2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.drop h2{margin:8px 0 2px;font-size:1.15rem}.drop p{margin:0 0 14px;color:var(--mut)}
+.btn{display:block;width:100%;padding:13px;border:0;border-radius:8px;background:var(--pri);color:var(--pt);font:inherit;font-weight:700;cursor:pointer;margin-top:12px}.btn.ghost{background:none;border:1px solid var(--line);color:var(--tx)}.btn.inl{display:inline-block;width:auto;padding:9px 16px;margin-top:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:10px}
+.drow{display:flex;gap:12px;align-items:center}.drow>button:first-child{flex:1}
+.lk{display:block;width:100%;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.docb{display:flex;gap:12px;align-items:center;text-align:left;background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0}
+.ft{width:38px;height:44px;border-radius:5px;display:grid;place-items:center;font-size:.68rem;font-weight:800;color:#fff;flex:none}.pdf{background:#b83227}.pptx{background:#b4561a}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.op{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 9px;color:var(--tx);font:inherit;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:3px}
+.op.on{border:2px solid var(--pri2);padding:11px 8px}.op small{color:var(--mut);font-size:.74rem;line-height:1.3}.tag{font-size:.76rem;color:var(--pri2);font-weight:700}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:18px}.prog div{flex:1;height:4px;background:var(--line);border-radius:2px}.prog i{display:block;height:100%;background:var(--pri2);border-radius:2px}.prog b{font-size:.85rem}
+.q{font-size:1.25rem;font-weight:700;letter-spacing:-.01em;margin:0 0 16px}
+.ch{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:11px;margin-bottom:10px;color:var(--tx);font:inherit;cursor:pointer}
+.ch .l{width:30px;height:30px;border-radius:6px;border:1px solid var(--mut);display:grid;place-items:center;flex:none;font-weight:700}
+.ch.ok{border-color:var(--ok)}.ch.ok .l{background:var(--ok);color:#fff;border-color:var(--ok)}.ch.bad{border-color:var(--bad)}.ch.bad .l{background:var(--bad);color:#fff;border-color:var(--bad)}
+.sh{border:1px solid var(--line);border-left:4px solid var(--mut);border-radius:8px;padding:14px;margin-top:6px;background:var(--card)}.sh.ok{border-left-color:var(--ok)}.sh.bad{border-left-color:var(--bad)}.sh h3{margin:0 0 6px}.sh.ok h3{color:var(--ok)}.sh.bad h3{color:var(--bad)}.sh hr{border:0;border-top:1px solid var(--line);margin:10px 0}
+input[type=text],input:not([type]){width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--tx)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg{display:flex;margin-bottom:14px}.seg button{flex:1;padding:9px;border:0;border-bottom:2px solid var(--line);background:none;color:var(--mut);font:inherit;cursor:pointer}.seg .on{border-color:var(--pri2);color:var(--tx);font-weight:700}
+.rs h2{font-size:1.3rem;margin:0 0 8px;letter-spacing:-.01em}.rs h3{font-size:1.02rem;margin:14px 0 4px;color:var(--pri2)}.rs ul{margin:4px 0;padding-left:20px}
+.fm{display:inline-block;max-width:100%;overflow-x:auto;font:600 .95rem ui-monospace,Menlo,monospace;padding:3px 9px;border-radius:4px;margin:4px 0}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:.88rem}th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left}
+dt{font-weight:600;margin-top:8px}dd{margin:0;color:var(--mut)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pri2)}
+.pack{border:2px solid var(--pri2)}.pack ul{list-style:none;padding:0;margin:10px 0}.pack li{padding:5px 0;border-bottom:1px solid var(--line)}.price{font-size:2rem;font-weight:800;letter-spacing:-.02em;margin:6px 0}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
+nav button{flex:1;max-width:130px;background:none;border:0;color:var(--mut);font:inherit;font-size:.76rem;padding:8px 0 10px;cursor:pointer}nav .g{display:block;height:24px}nav .on{color:var(--tx);font-weight:700}nav .on svg{stroke:var(--pri2)}
+#ld{position:fixed;inset:0;background:color-mix(in srgb,var(--bg) 94%,transparent);display:grid;place-items:center;z-index:9;text-align:center;padding:20px}
+.spin{width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--pri2);border-radius:50%;animation:sp 1s linear infinite;margin:0 auto 12px}@keyframes sp{to{transform:rotate(1turn)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:4s}}
+#tt{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;background:var(--tx);color:var(--bg);padding:10px 14px;border-radius:8px;z-index:10;width:max-content;max-width:90%}
+button:focus-visible,input:focus-visible{outline:3px solid var(--pri2);outline-offset:2px}
+.cover{min-height:calc(100vh - 140px);display:flex;flex-direction:column;justify-content:center;gap:6px}.cover .kick{margin:0;color:var(--mut)}
+.cover h1{font-size:3.6rem;line-height:1;font-weight:800;letter-spacing:-.045em;margin:4px 0 12px}.cover .lead{font-size:1.15rem;max-width:30ch;margin:0}
+.steps{list-style:none;padding:0;margin:20px 0 8px;border-top:1px solid var(--line)}.steps li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}.steps b{color:var(--pri2);min-width:1.2em}
+.cover .fine{color:var(--mut);font-size:.85rem;margin:6px 0 0}
+select{width:100%;font:inherit;padding:11px;border:1.5px solid var(--ink);border-radius:var(--w1);background:var(--card);color:var(--tx)}.cover .lang{position:absolute;top:12px;right:12px;width:auto;padding:5px 8px;font-size:.85rem;background:#fffef9;color:#17140f}
+@media print{:root{--card:#fff;--tx:#000;--mut:#444;--line:#ccc;--pri2:#000;--bg:#fff}nav,.top,.seg,.acts{display:none}}
+</style>
+</head>
+<body>
+<div id="app"><div id="v"><div class="cover"><select class="lang" aria-label="Idioma" onchange="setLang(this.value)"><option value="pt-MZ" selected>Português (Moçambique)</option><option value="pt-BR">Português (Brasil)</option><option value="en">English (US)</option><option value="es">Español</option></select><p class="kick">Caderno de estudo</p><div class="label"><h1>Mabu<mark>Data</mark></h1><p class="lead">Envie o PDF ou os slides da aula. Receba o resumo, as fórmulas separadas e um quiz para testar o que ficou.</p><p class="fill"><span>Nome:</span> <b>estudante</b></p></div>
+<button class="btn" onclick="comecar()">Abrir o caderno</button><p class="fine">Feito para o telemóvel e para pouca internet: o texto é lido no seu aparelho e só ele segue para a IA.</p></div></div></div>
+<noscript><p style="padding:20px">O MabuData precisa de JavaScript para ler seus arquivos e gerar resumos e quizzes.</p></noscript>
+<nav id="nv" aria-label="Navegação"></nav>
+<div id="ld" hidden><div><div class="spin"></div><p id="ldm" role="status"></p></div></div>
+<div id="tt" role="status" hidden></div>
+<input id="file" type="file" accept=".pdf,.pptx,application/pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation" hidden>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script src="/i18n.js"></script>
+<script src="/prompts.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch { return d } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true } catch { return false } };
+const I = window.MabuI18n; I.set(I.detect());
+function setLang(v) { save("mabu_lang", v); const p = I.path(v); if (!window.__LIVE && location.pathname.replace(/\/$/, "") !== p.replace(/\/$/, "")) { location.href = p; return; } I.set(v); go(cur); }
+const U = m => Object.assign(new Error(m), { u: 1 });
+const cred = () => load("mabu_cred", 5), setCred = v => save("mabu_cred", Math.max(0, v));
+const nome = () => load("mabu_user", "estudante");
+const saud = () => { const h = new Date().getHours(); return h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite"; };
+/* Google Analytics: só carrega com ID válido, sem Do Not Track e se a pessoa não desativou. Nunca envia conteúdo de documentos. */
+const CFG = { ga: "G-XXXXXXXXXX" };
+const gaOn = () => /^G-[A-Z0-9]{6,}$/.test(CFG.ga) && CFG.ga !== "G-XXXXXXXXXX" && !load("mabu_ga_off", false) && navigator.doNotTrack !== "1";
+function track(n, p) { try { if (window.gtag && gaOn()) gtag("event", n, p || {}); } catch {} }
+(function () { if (!gaOn()) return; window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); }; gtag("js", new Date()); gtag("config", CFG.ga, { anonymize_ip: true });
+  const t = document.createElement("script"); t.async = true; t.src = "https://www.googletagmanager.com/gtag/js?id=" + CFG.ga; document.head.appendChild(t); })();
+function toggleGA() { save("mabu_ga_off", !load("mabu_ga_off", false)); location.reload(); }
+const DIA = 864e5, INTERVALOS = [1, 3, 7];
+const C_T = { curto: 0, medio: 1, extenso: 2 }, C_N = { facil: 0, medio: 1, avancado: 2 };
+let cur = "home", doc = null, sel = { tam: "curto", niv: "facil", idioma: "auto" }, res = null, qz = null, cz = null, lojaVolta = "home", pdfDoc = null;
+
+/* ---------- utilidades de interface ---------- */
+function toast(m) { const t = $("#tt"); t.textContent = I.tr(m); t.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(() => t.hidden = true, 4000); }
+function ld(m) { $("#ld").hidden = !m; if (m) $("#ldm").textContent = I.tr(m); }
+const fmtSize = b => b > 1e6 ? (b / 1e6).toFixed(1) + " MB" : Math.max(1, Math.round(b / 1e3)) + " KB";
+const ago = t => { const m = (Date.now() - t) / 6e4; return m < 60 ? `há ${Math.max(1, Math.floor(m))} min` : m < 1440 ? `há ${Math.floor(m / 60)} h` : `há ${Math.floor(m / 1440)} d`; };
+const ftag = t => `<span class="ft ${t}">${t === "pdf" ? "PDF" : "PPTX"}</span>`;
+function topbar(t, back) { return `<div class="top">${back ? `<button class="ic" aria-label="Voltar" onclick="go('${back}')">←</button>` : ""}<h1>${t}</h1><button class="pill" onclick="go('loja')">${cred()} créditos</button></div>`; }
+async function baixar(nome, conteudo, tipo) {
+  track("exportar", { tipo });
+  const dl = window.claude ? await window.claude.use("downloads") : null;
+  if (dl) { try { await dl.save({ filename: nome, data: conteudo }); } catch {} return; }
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([conteudo], { type: tipo })); a.download = nome; a.click();
+}
+
+/* ---------- navegação ---------- */
+const ICO = { home: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>', bib: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11"/></svg>', estudo: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 10h8M8 14h5"/></svg>', perfil: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>' };
+const NAVS = [["home", ICO.home, "Início"], ["bib", ICO.bib, "Biblioteca"], ["estudo", ICO.estudo, "Estudo"], ["perfil", ICO.perfil, "Perfil"]];
+const TABDE = { home: "home", analise: "home", res: "home", quiz: "home", bib: "bib", estudo: "estudo", cartoes: "estudo", perfil: "perfil", loja: "perfil" };
+function go(v) {
+  if (v === "loja" && cur !== "loja") lojaVolta = cur === "quiz" || cur === "cartoes" ? "home" : cur;
+  cur = v; document.body.classList.toggle("capa", v === "capa"); track("screen_view", { screen_name: v });
+  const R = { capa: vCapa, home: vHome, analise: vAnalise, res: vRes, quiz: vQuiz, cartoes: vCartoes, bib: vBib, estudo: vEstudo, perfil: vPerfil, loja: vLoja };
+  $("#v").innerHTML = R[v]();
+  $("#nv").innerHTML = v === "capa" ? "" : NAVS.map(([k, g, n]) => `<button class="${TABDE[v] === k ? "on" : ""}" onclick="go('${k}')"><span class="g">${g}</span>${n}</button>`).join("");
+  I.apply($("#v")); I.apply($("#nv")); $("#nv").setAttribute("aria-label", I.tr("Navegação")); document.documentElement.lang = I.htmlLang();
+  if (v === "home") iniHome();
+  scrollTo(0, 0);
+}
+
+/* ---------- capa de abertura ---------- */
+function vCapa() {
+  const novo = !load("mabu_visto", false);
+  return `<div class="cover"><select class="lang" aria-label="Idioma" onchange="setLang(this.value)">${I.opts()}</select><p class="kick">Caderno de estudo</p><div class="label"><h1>Mabu<mark>Data</mark></h1><p class="lead">Envie o PDF ou os slides da aula. Receba o resumo, as fórmulas separadas e um quiz para testar o que ficou.</p><p class="fill"><span>Nome:</span> <b>${esc(nome())}</b></p></div>
+<button class="btn" onclick="comecar()">${novo ? "Abrir o caderno" : "Continuar estudando"}</button><p class="fine">Feito para o telemóvel e para pouca internet: o texto é lido no seu aparelho e só ele segue para a IA.</p></div>`;
+}
+function comecar() { track("comecar"); save("mabu_visto", true); go("home"); }
+
+/* ---------- início e upload ---------- */
+function docRow(d) {
+  return `<div class="card drow"><button class="docb" onclick="abrir('${d.id}')">${ftag(d.tipo)}<span><b>${esc(d.nome)}</b><br><small class="mut">${fmtSize(d.size)}, ${ago(d.data)}</small></span></button><button class="ic" aria-label="Excluir ${esc(d.nome)}" onclick="del('${d.id}')">⋮</button></div>`;
+}
+function vHome() {
+  const ds = load("mabu_docs", []);
+  return `<div class="top"><div style="flex:1"><div class="hello">${saud()}, <b>${esc(nome())}</b></div><small class="mut">Envie o material da aula para começar.</small></div><button class="pill" onclick="go('loja')">${cred()} créditos</button></div>
+  <div class="drop" id="drop"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V5m0 0L7 10m5-5l5 5M5 19h14"/></svg><h2>Solte aqui o PDF ou os slides</h2><p>ou toque para escolher no telemóvel</p><span class="btn ghost inl">Escolher arquivo</span></div>
+  <h2 class="h">Documentos recentes</h2>${ds.map(docRow).join("") || `<p class="mut">Nenhum documento ainda. Envie o primeiro acima.</p>`}`;
+}
+function iniHome() {
+  const f = $("#file"), d = $("#drop");
+  f.onchange = e => { const x = e.target.files[0]; e.target.value = ""; x && ler(x); };
+  d.onclick = () => f.click();
+  d.ondragover = e => e.preventDefault();
+  d.ondrop = e => { e.preventDefault(); e.dataTransfer.files[0] && ler(e.dataTransfer.files[0]); };
+}
+if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+async function ocr(f, pdf) {
+  if (window.__LIVE) throw U("Este PDF é escaneado (só imagem). O OCR funciona na versão publicada na Vercel.");
+  if (!confirm(I.tr("Este PDF parece escaneado. Ler com OCR (até 40 páginas)? Na primeira vez baixa os dados de idioma."))) throw U("Leitura cancelada.");
+  let cur = 1; const n = Math.min(pdf.numPages, 40), P = [];
+  const w = await Tesseract.createWorker("por+eng", 1, { logger: m => ld(m.status === "recognizing text" ? `OCR, página ${cur} de ${n}: ${Math.round(m.progress * 100)}%` : "Preparando o OCR…") });
+  for (; cur <= n; cur++) {
+    const pg = await pdf.getPage(cur), vp = pg.getViewport({ scale: 2 }), c = document.createElement("canvas");
+    c.width = vp.width; c.height = vp.height;
+    await pg.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+    P.push((await w.recognize(c)).data.text); c.width = c.height = 0;
+  }
+  await w.terminate(); return P.join("\n");
+}
+async function ler(f) {
+  const tipo = /\.pptx$/i.test(f.name) ? "pptx" : /\.pdf$/i.test(f.name) ? "pdf" : null;
+  if (!tipo) return toast("Envie um arquivo PDF ou PPTX.");
+  if ((tipo === "pdf" && !window.pdfjsLib) || (tipo === "pptx" && !window.JSZip)) return toast("O leitor de arquivos não carregou. Verifique a internet e recarregue a página.");
+  ld("Lendo o arquivo…");
+  try {
+    let t = "";
+    if (tipo === "pdf") {
+      const pdf = pdfDoc = await pdfjsLib.getDocument({ data: await f.arrayBuffer() }).promise, P = [];
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const c = await (await pdf.getPage(i)).getTextContent(); P.push(c.items.map(x => x.str).join(" "));
+        if (i % 5 === 0) ld(`Lendo página ${i} de ${pdf.numPages}…`);
+      }
+      t = P.join("\n").replace(/[ \t]+/g, " ").trim();
+      if (t.length < 200) t = (await ocr(f, pdf)).replace(/[ \t]+/g, " ").trim();
+    } else {
+      const z = await JSZip.loadAsync(await f.arrayBuffer());
+      const ns = Object.keys(z.files).filter(n => /^ppt\/slides\/slide\d+\.xml$/.test(n)).sort((a, b) => a.match(/\d+/)[0] - b.match(/\d+/)[0]), P = [];
+      for (const n of ns) P.push([...(await z.file(n).async("string")).matchAll(/<a:t(?:\s[^>]*)?>([^<]*)<\/a:t>/g)].map(m => m[1]).join(" "));
+      t = P.join("\n").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/[ \t]+/g, " ").trim();
+    }
+    if (t.length < 200) throw U("Não encontrei texto suficiente neste arquivo.");
+    const d = { id: Date.now().toString(36), nome: f.name.replace(/\.(pdf|pptx)$/i, ""), tipo, size: f.size, data: Date.now(), texto: t.slice(0, 200000) };
+    const L = [d, ...load("mabu_docs", [])].slice(0, 10);
+    while (L.length > 1 && !save("mabu_docs", L)) L.pop();
+    doc = d; ld(); track("upload_arquivo", { tipo }); go("analise");
+  } catch (e) { ld(); toast(e.u ? e.message : "Não foi possível ler este arquivo. Confira se não está protegido ou corrompido."); }
+}
+function abrir(id) { doc = load("mabu_docs", []).find(d => d.id === id); doc ? go("analise") : toast("Documento não encontrado."); }
+function del(id) { if (confirm(I.tr("Excluir este documento da lista?"))) { save("mabu_docs", load("mabu_docs", []).filter(d => d.id !== id)); go(cur); } }
+
+/* ---------- análise: escolha de tamanho e dificuldade ---------- */
+const op = (g, k, ic, n, desc, c) => `<button class="op ${sel[g] === k ? "on" : ""}" aria-pressed="${sel[g] === k}" onclick="pick('${g}','${k}')"><b>${n}</b><span class="tag">${c ? c + (c > 1 ? " créditos" : " crédito") : "Grátis"}</span><small>${desc}</small></button>`;
+function pick(g, k) { sel[g] = k; go("analise"); }
+function vAnalise() {
+  if (!doc) return vHome();
+  const custo = C_T[sel.tam] + C_N[sel.niv];
+  return topbar("Análise do documento", "home") +
+  `<div class="card drow">${ftag(doc.tipo)}<span><b>${esc(doc.nome)}</b><br><small class="mut">${fmtSize(doc.size)}, ${doc.texto.length.toLocaleString(I.loc())} caracteres</small></span></div>
+  <h2 class="h">1. Resumo</h2><small class="mut">Escolha o tamanho</small>
+  <div class="opts">${op("tam", "curto", "", "Curto", "Visão rápida dos pontos principais", 0)}${op("tam", "medio", "", "Médio", "Profundidade moderada", 1)}${op("tam", "extenso", "", "Extenso", "Detalhado, com exemplos", 2)}</div>
+  <h2 class="h">2. Quiz</h2><small class="mut">Escolha a dificuldade</small>
+  <div class="opts">${op("niv", "facil", "", "Fácil", "Checagem básica", 0)}${op("niv", "medio", "", "Médio", "Desafio intermediário", 1)}${op("niv", "avancado", "", "Difícil", "Compreensão avançada", 2)}</div>
+  <h2 class="h">3. Idioma do resumo e do quiz</h2><select aria-label="Idioma do resumo e do quiz" onchange="sel.idioma=this.value">${[["auto", "Igual ao material"], ["pt", "Português"], ["en", "English"], ["es", "Español"]].map(([v, n]) => `<option value="${v}" ${sel.idioma === v ? "selected" : ""}>${n}</option>`).join("")}</select>
+  <button class="btn" onclick="gerar()">Gerar${custo ? ` (${custo} crédito${custo > 1 ? "s" : ""})` : " (grátis)"}</button>
+  <p class="mut c"><small>O texto segue para a IA e volta como resumo e quiz. Você tem ${cred()} crédito(s). Só é cobrado se der certo.</small></p>
+  <button class="btn ghost" onclick="soCartoes()">Gerar só cartões de revisão (grátis)</button>`;
+}
+
+/* ---------- chamadas à IA (com partes e cache) ---------- */
+async function api(body) {
+  if (window.__LIVE) {
+    const s = window.claude ? await window.claude.use("sample") : null;
+    if (!s) throw U("A IA da demonstração só funciona dentro do Claude. Use a versão da Vercel.");
+    try { return await s.json(MabuPrompts.buildPrompt(body), { cache: body.mode !== "quiz" }); }
+    catch (e) { throw U(e.code === "not_granted" ? "Permita o uso do Claude para gerar." : e.code === "rate_limited" ? "Muitos pedidos. Espere um pouco e tente de novo." : "A IA não respondeu direito. Tente de novo."); }
+  }
+  const r = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw U(d.erro || "Erro no servidor.");
+  return d;
+}
+const partes = t => { const P = []; for (let i = 0; i < t.length; i += 50000) P.push(t.slice(i, i + 50000)); return P; };
+const hash = s => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0; return h + "." + s.length; };
+async function chamar(mode, o = {}) {
+  const ps = partes(doc.texto), qtd = o.qtd || 10, k = [hash(doc.texto), mode, o.tamanho || "", qtd, sel.idioma].join("|"), cache = load("mabu_cache", {});
+  if (mode !== "quiz" && cache[k]) return cache[k];
+  let r;
+  if (mode === "resumo") {
+    const parc = [];
+    for (let i = 0; i < ps.length; i++) { ld(`Resumindo parte ${i + 1} de ${ps.length}…`); parc.push(await api({ text: ps[i], mode, tamanho: o.tamanho, idioma: sel.idioma })); }
+    if (parc.length === 1) r = parc[0]; else { ld("Unindo as partes…"); r = await api({ text: JSON.stringify(parc), mode: "mesclar", tamanho: o.tamanho, idioma: sel.idioma }); }
+  } else {
+    const dobro = mode === "cards" ? 2 : 1, por = Math.max(3, Math.ceil(qtd * dobro / ps.length)), todas = [];
+    for (let i = 0; i < ps.length; i++) { ld(`Gerando parte ${i + 1} de ${ps.length}…`); const d = await api({ text: ps[i], mode, nivel: o.nivel, qtd: por, idioma: sel.idioma }); todas.push(...(d.perguntas || d.cartoes || [])); }
+    todas.sort(() => Math.random() - .5);
+    r = mode === "quiz" ? { perguntas: todas.slice(0, qtd) } : { cartoes: todas.slice(0, qtd * dobro) };
+  }
+  if (mode !== "quiz") { cache[k] = r; const ks = Object.keys(cache); if (ks.length > 8) delete cache[ks[0]]; save("mabu_cache", cache); }
+  return r;
+}
+async function gerar() {
+  const custo = C_T[sel.tam] + C_N[sel.niv];
+  if (cred() < custo) { toast("Créditos insuficientes para esta escolha."); return go("loja"); }
+  try {
+    ld("Condensando o material…"); const resumo = await chamar("resumo", { tamanho: sel.tam });
+    ld("Criando as questões…"); const q = await chamar("quiz", { nivel: sel.niv, qtd: 10 });
+    if (!(q.perguntas || []).length) throw U("A IA não devolveu questões. Tente de novo.");
+    setCred(cred() - custo); track("gerar_conteudo", { tamanho: sel.tam, nivel: sel.niv, custo }); res = { resumo, perguntas: q.perguntas, nivel: sel.niv, doc }; ld(); go("res");
+  } catch (e) { ld(); toast(e.u ? e.message : "Algo deu errado. Nenhum crédito foi cobrado."); }
+}
+async function soCartoes() {
+  try {
+    ld("Criando os cartões…"); const d = await chamar("cards", { qtd: 8 });
+    const novos = (d.cartoes || []).map(x => ({ disc: doc.nome, f: x.frente, v: x.verso, passo: 0, due: Date.now() }));
+    if (!novos.length) throw U("A IA não devolveu cartões. Tente de novo.");
+    const todos = [...load("mabu_cards", []), ...novos].slice(-400); save("mabu_cards", todos); ld(); track("gerar_cartoes"); revisarCartoes(novos, todos);
+  } catch (e) { ld(); toast(e.u ? e.message : "Algo deu errado. Tente de novo."); }
+}
+
+/* ---------- resultado: resumo ---------- */
+function htmlResumo(d) {
+  const top = (d.topicos || []).map(t => `<h3>${esc(t.titulo)}</h3><ul>${(t.pontos || []).map(p => `<li>${esc(p)}</li>`).join("")}</ul>`).join("");
+  const fm = (d.formulas || []).map(f => `<h3>${esc(f.nome)}</h3><span class="fm">${esc(f.expressao)}</span><div class="tw"><table><tr><th>Variável</th><th>Significado</th><th>Unidade</th></tr>${(f.variaveis || []).map(v => `<tr><td>${esc(v.simbolo)}</td><td>${esc(v.significado)}</td><td>${esc(v.unidade || "-")}</td></tr>`).join("")}</table></div>`).join("");
+  const df = (d.definicoes || []).map(x => `<dt>${esc(x.termo)}</dt><dd>${esc(x.definicao)}</dd>`).join("");
+  return `<div class="card rs" id="rs"><h2>${esc(d.titulo || "Resumo")}</h2>${top}${fm ? `<h2 style="margin-top:20px">Fórmulas</h2>${fm}` : ""}${df ? `<h2 style="margin-top:20px">Definições</h2><dl>${df}</dl>` : ""}</div>
+  <div class="two acts"><button class="btn ghost" onclick="salvarResumo()">Salvar na biblioteca</button><button class="btn ghost" onclick="print()">Imprimir ou PDF</button><button class="btn ghost" onclick="baixarMd()">Baixar .md</button><button class="btn ghost" onclick="baixarHtml()">Baixar .html</button></div>`;
+}
+function vRes() {
+  if (!res) return vHome();
+  const T = [["resumo", "Resumo"], ...(res.perguntas ? [["quiz", "Quiz"]] : [])];
+  return topbar(esc(res.doc?.nome || "Resumo"), "analise") + `<div class="seg">${T.map(([k, n]) => `<button class="${k === "resumo" ? "on" : ""}" onclick="setTab('${k}')">${n}</button>`).join("")}</div>` + htmlResumo(res.resumo);
+}
+function setTab(k) { if (k === "quiz") iniciarQuiz(res.perguntas, res.doc?.nome || "Geral", res.nivel, "res"); }
+function salvarResumo() { const l = load("mabu_resumos", []); l.unshift({ disc: res.doc?.nome || "Geral", data: Date.now(), d: res.resumo }); save("mabu_resumos", l.slice(0, 30)); toast("Resumo salvo na biblioteca."); }
+function baixarMd() {
+  const d = res.resumo; let m = `# ${d.titulo}\n\n`;
+  (d.topicos || []).forEach(t => m += `## ${t.titulo}\n${(t.pontos || []).map(p => `- ${p}`).join("\n")}\n\n`);
+  if ((d.formulas || []).length) { m += `## ${I.tr("Fórmulas")}\n\n`; d.formulas.forEach(f => { m += `**${f.nome}**: \`${f.expressao}\`\n\n| ${I.tr("Variável")} | ${I.tr("Significado")} | ${I.tr("Unidade")} |\n|---|---|---|\n${(f.variaveis || []).map(v => `| ${v.simbolo} | ${v.significado} | ${v.unidade || "-"} |`).join("\n")}\n\n`; }); }
+  if ((d.definicoes || []).length) m += `## ${I.tr("Definições")}\n\n${d.definicoes.map(x => `- **${x.termo}**: ${x.definicao}`).join("\n")}\n`;
+  baixar((d.titulo || "resumo").replace(/\W+/g, "-").toLowerCase() + ".md", m, "text/markdown");
+}
+function baixarHtml() {
+  const d = res.resumo, h = `<!DOCTYPE html><html lang="pt"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(d.titulo)}</title><style>body{font:16px/1.6 system-ui,sans-serif;max-width:700px;margin:24px auto;padding:0 16px;color:#14213d}.fm{background:#ffe066;padding:4px 8px;border-radius:6px;font-family:monospace}table{border-collapse:collapse;width:100%}th,td{border-bottom:1px solid #ccd;padding:6px;text-align:left}dt{font-weight:600;margin-top:8px}dd{margin:0;color:#55627a}.tw{overflow-x:auto}h3{color:#4c2fa8}</style><body>${$("#rs").innerHTML}</body></html>`;
+  baixar((d.titulo || "resumo").replace(/\W+/g, "-").toLowerCase() + ".html", h, "text/html");
+}
+
+/* ---------- quiz ---------- */
+function iniciarQuiz(qs, disc, nivel, volta, rev) { track("quiz_iniciado", { nivel, revisao: !!rev }); qz = { qs, i: 0, ac: 0, er: [], fb: null, disc, nivel, volta, rev, fim: false }; go("quiz"); }
+const respTxt = q => q.tipo === "vf" ? (q.resposta === true || q.resposta === "true" ? "Verdadeiro (A)" : "Falso (B)") : "ABCD"[q.resposta] ?? "?";
+function vQuiz() {
+  const z = qz, n = z.qs.length;
+  if (z.fim) return topbar("Resultado", z.volta) + `<div class="card c"><h2>${z.ac} de ${n} (${Math.round(100 * z.ac / n)}%)</h2><p>${z.er.length && !z.rev ? `${z.er.length} questão(ões) foram para a revisão espaçada e voltam amanhã.` : z.er.length ? "As que você errou voltam na próxima etapa da revisão." : "Sem erros. Que tal subir o nível?"}</p></div><button class="btn" onclick="go('home')">Voltar ao início</button>`;
+  const q = z.qs[z.i], pc = Math.round(100 * (z.i + (z.fb ? 1 : 0)) / n);
+  let corpo = "";
+  if (q.tipo === "curta") corpo = z.fb ? "" : `<input id="cur" placeholder="Sua resposta" aria-label="Sua resposta"><button class="btn" onclick="conferir()">Conferir</button>`;
+  else corpo = (q.tipo === "vf" ? ["Verdadeiro", "Falso"] : q.opcoes || []).map((o, k) => {
+    const val = q.tipo === "vf" ? String(k === 0) : String(k); let c = "";
+    if (z.fb) { if (val === String(q.resposta)) c = "ok"; else if (val === z.fb.pick) c = "bad"; }
+    return `<button class="ch ${c}" ${z.fb ? "disabled" : ""} onclick="responder('${val}')"><span class="l">${"ABCD"[k]}</span><span>${esc(o)}</span></button>`;
+  }).join("");
+  const f = z.fb, aberta = f && f.ok === null;
+  const sheet = f ? `<div class="sh ${aberta ? "" : f.ok ? "ok" : "bad"}"><h3>${aberta ? "Compare com a resposta" : f.ok ? "Correto" : "Incorreto"}</h3>${q.tipo === "curta" ? `<p><b>Resposta esperada:</b> ${esc(q.resposta)}</p>` : !f.ok ? `<p>A resposta correta é ${respTxt(q)}</p>` : ""}<hr><b class="hw" style="font-size:1.35rem">Correção</b><p>${esc(q.explicacao)}</p>${aberta ? `<div class="two"><button class="btn" onclick="auto(true)">Acertei</button><button class="btn ghost" onclick="auto(false)">Errei</button></div>` : `<button class="btn" onclick="prox()">${z.i + 1 < n ? "Próxima questão" : "Ver resultado"}</button>`}</div>` : "";
+  return topbar(`Questão ${z.i + 1} de ${n}`, z.volta) + `<div class="prog" role="img" aria-label="Questão ${z.i + 1} de ${n}">${Array.from({ length: n }, (_, k) => `<i class="${k < z.i + (z.fb ? 1 : 0) ? "f" : ""}"></i>`).join("")}</div><p class="q">${esc(q.enunciado)}</p>${corpo}${sheet}`;
+}
+function marca(ok) { const z = qz; qz.fb.ok = ok; if (ok) z.ac++; else z.er.push(z.qs[z.i]); }
+function responder(v) { qz.fb = { pick: v }; marca(v === String(qz.qs[qz.i].resposta)); go("quiz"); }
+function conferir() { qz.fb = { ok: null }; go("quiz"); }
+function auto(v) { marca(v); go("quiz"); }
+function prox() {
+  const z = qz; z.fb = null;
+  if (++z.i < z.qs.length) return go("quiz");
+  z.fim = true; track("quiz_concluido", { nivel: z.nivel, acerto_pct: Math.round(100 * z.ac / z.qs.length), revisao: !!z.rev });
+  if (!z.rev) {
+    const h = load("mabu_hist", []); h.push({ disc: z.disc, nivel: z.nivel, acertos: z.ac, total: z.qs.length, data: Date.now() }); save("mabu_hist", h.slice(-300));
+    const rv = load("mabu_rev", []); z.er.forEach(q => rv.push({ disc: z.disc, q, passo: 0, due: Date.now() + DIA })); save("mabu_rev", rv.slice(-200));
+  }
+  go("quiz");
+}
+
+/* ---------- cartões de revisão ---------- */
+function revisarCartoes(lista, todos) { track("revisao_cartoes", { n: lista.length }); cz = { lista, todos, i: 0, v: false }; go("cartoes"); }
+function vCartoes() {
+  const z = cz;
+  if (z.i >= z.lista.length) return topbar("Cartões", "estudo") + `<div class="card c"><h2>Cartões concluídos</h2><p>Os que você esqueceu voltam amanhã.</p></div><button class="btn" onclick="go('home')">Voltar ao início</button>`;
+  const c = z.lista[z.i];
+  return topbar(`Cartão ${z.i + 1} de ${z.lista.length}`, "estudo") + `<p class="mut">${esc(c.disc)}</p><div class="card"><p class="q">${esc(c.f)}</p>${z.v ? `<hr style="border:0;border-top:1px solid var(--line)"><p>${esc(c.v)}</p>` : ""}</div>` +
+    (z.v ? `<div class="two"><button class="btn" onclick="lembrei(true)">Lembrei</button><button class="btn ghost" onclick="lembrei(false)">Esqueci</button></div>` : `<button class="btn" onclick="cz.v=true;go('cartoes')">Mostrar resposta</button>`);
+}
+function lembrei(ok) {
+  const z = cz, c = z.lista[z.i];
+  if (ok) { c.passo++; c.due = Date.now() + (INTERVALOS[c.passo] || 14) * DIA; } else { c.passo = 0; c.due = Date.now() + DIA; }
+  save("mabu_cards", z.todos); z.i++; z.v = false; go("cartoes");
+}
+
+/* ---------- biblioteca ---------- */
+function vBib() {
+  const R = load("mabu_resumos", []), D = load("mabu_docs", []);
+  return topbar("Biblioteca") + `<h2 class="h">Resumos salvos</h2>` +
+    (R.map((r, i) => `<button class="card lk" onclick="abrirResumo(${i})"><b>${esc(r.d.titulo || "Resumo")}</b><br><small class="mut">${esc(r.disc)}, ${ago(r.data)}</small></button>`).join("") || `<p class="mut">Nenhum resumo salvo. Gere um resumo e toque em Salvar na biblioteca.</p>`) +
+    `<h2 class="h">Documentos</h2>` + (D.map(docRow).join("") || `<p class="mut">Nenhum documento enviado.</p>`);
+}
+function abrirResumo(i) { const r = load("mabu_resumos", [])[i]; res = { resumo: r.d, doc: { nome: r.disc } }; go("res"); }
+
+/* ---------- estudo: revisões e desempenho ---------- */
+function vEstudo() {
+  const h = load("mabu_hist", []), rv = load("mabu_rev", []), cs = load("mabu_cards", []), now = Date.now();
+  const rd = rv.filter(r => r.due <= now), cd = cs.filter(c => c.due <= now), ult = h.slice(-12), por = {};
+  h.forEach(x => { const o = por[x.disc] ??= { a: 0, t: 0, n: 0 }; o.a += x.acertos; o.t += x.total; o.n++; });
+  return topbar("Estudo") +
+  `<div class="card"><b>Cartões de hoje</b><p class="mut">${cd.length ? `${cd.length} cartão(ões) para revisar.` : `${cs.length} no baralho, nenhum para hoje.`}</p>${cd.length ? `<button class="btn inl" onclick="revisarCartoes(load('mabu_cards',[]).filter(c=>c.due<=Date.now()),load('mabu_cards',[]))">Revisar cartões</button>` : ""}</div>
+  <div class="card"><b>Questões para rever</b><p class="mut">${rd.length ? `${rd.length} questão(ões) que você errou.` : "Nenhuma questão para hoje."}</p>${rd.length ? `<button class="btn inl" onclick="revisarErros()">Revisar erros</button>` : ""}</div>
+  <h2 class="h">Rendimento por disciplina</h2>` +
+  (Object.keys(por).map(n => { const o = por[n], pc = Math.round(100 * o.a / o.t); return `<div class="card"><b>${esc(n)}</b> <small class="mut">${o.n} teste(s): ${o.a} acertos, ${o.t - o.a} erros</small><div class="bar" role="img" aria-label="${pc}% de acerto"><i style="width:${pc}%"></i></div><small class="mut">${pc}% de acerto</small></div>`; }).join("") || `<p class="mut">Faça um quiz para ver seu rendimento aqui.</p>`) +
+  `<h2 class="h">Evolução nos testes</h2>` + (ult.length ? `<div class="card"><div style="display:flex;align-items:flex-end;gap:6px;height:110px" role="img" aria-label="Percentual de acerto nos últimos testes">${ult.map(x => { const pc = Math.round(100 * x.acertos / x.total); return `<div title="${esc(x.disc)}: ${pc}%" style="flex:1;background:var(--pri);height:${Math.max(pc, 3)}%;border-radius:3px 3px 0 0"></div>`; }).join("")}</div><small class="mut">Cada barra é um teste, do mais antigo ao mais recente.</small></div>` : `<p class="mut">Sem testes ainda.</p>`);
+}
+function revisarErros() {
+  const rv = load("mabu_rev", []), now = Date.now(), dev = rv.filter(r => r.due <= now), resto = rv.filter(r => r.due > now);
+  dev.forEach(r => { r.passo++; if (r.passo < INTERVALOS.length) { r.due = now + INTERVALOS[r.passo] * DIA; resto.push(r); } });
+  save("mabu_rev", resto); iniciarQuiz(dev.map(r => r.q), "Revisão", "medio", "estudo", true);
+}
+
+/* ---------- perfil, backup e créditos ---------- */
+const CH = ["mabu_user", "mabu_hist", "mabu_rev", "mabu_cards", "mabu_resumos"];
+function vPerfil() {
+  return topbar("Perfil") + `<div class="card"><label for="nm" class="mut">Seu nome</label><input id="nm" value="${esc(nome())}" maxlength="20" onchange="save('mabu_user',this.value.trim()||'estudante')"></div>
+  <div class="card"><b>${cred()} créditos</b><p class="mut">Resumos curtos e quizzes fáceis são grátis. Médio custa 1 crédito e extenso ou difícil, 2.</p><button class="btn inl" onclick="go('loja')">Obter créditos</button></div>
+  <div class="card"><b>Idioma e região</b><p class="mut">O app, o resumo e o quiz podem ficar no idioma que você escolher.</p><select aria-label="Idioma" onchange="setLang(this.value)">${I.opts()}</select></div>
+  <div class="card"><b>Medição de uso</b><p class="mut">Contamos visitas e ações gerais, como enviar um arquivo. Nunca o conteúdo dos seus documentos. <a href="/privacidade" style="color:var(--pri2)">Privacidade</a></p><button class="btn ghost inl" onclick="toggleGA()">${load("mabu_ga_off", false) ? "Ativar medição" : "Desativar medição"}</button></div>
+  <div class="card"><b>Backup e troca de aparelho</b><p class="mut">Seus dados ficam neste aparelho. Exporte para guardar ou levar para outro.</p><div class="two"><button class="btn ghost" onclick="exportar()">Exportar</button><button class="btn ghost" onclick="$('#fim').click()">Importar</button></div><input type="file" id="fim" accept=".json" hidden onchange="importar(this)"></div>`;
+}
+function exportar() { baixar("mabudata-backup.json", JSON.stringify(Object.fromEntries(CH.map(k => [k, load(k, k === "mabu_user" ? "estudante" : [])]))), "application/json"); }
+async function importar(el) { try { const d = JSON.parse(await el.files[0].text()); CH.forEach(k => d[k] !== undefined && save(k, d[k])); toast("Dados importados."); go("perfil"); } catch { toast("Arquivo de backup inválido."); } }
+function vLoja() {
+  return topbar("Créditos", lojaVolta) + `<h2 class="c" style="font-size:1.25rem">Precisa de mais créditos para resumos extensos e quizzes difíceis?</h2>
+  <div class="card pack"><span class="tag">Mais escolhido</span><h2 style="margin:8px 0 0">Pacote Universitário</h2><p class="mut" style="margin:0">5 créditos por ${I.preco()}</p>
+  <ul><li>Gere resumos extensos</li><li>Acesse quizzes difíceis</li><li>Sem prazo de validade</li><li>Compra única</li></ul><div class="price">${I.preco()}</div><h3 style="margin:12px 0 6px;font-size:1rem">Forma de pagamento</h3><div class="opts" style="grid-template-columns:1fr 1fr">${I.pay().map(p => `<button class="op ${selPay() === p.id ? "on" : ""}" aria-pressed="${selPay() === p.id}" onclick="sel.pay='${p.id}';go('loja')"><b>${p.n}</b><small>${p.d}</small></button>`).join("")}</div><p class="mut"><small>Ainda sem cobrança real nesta versão.</small></p><button class="btn" onclick="comprar()">Comprar agora →</button></div>
+  <div class="card drow"><span style="flex:1"><b>Assistir a um anúncio</b><br><small class="mut">Ganhe 1 crédito grátis (até 3 por dia)</small></span><button class="btn ghost inl" onclick="anuncio()">Assistir</button></div>`;
+}
+const selPay = () => I.pay().some(p => p.id === sel.pay) ? sel.pay : I.pay()[0].id;
+function comprar() { track("compra_clique", { metodo: selPay() }); toast("O pagamento ainda não está conectado nesta versão. Ele será ativado com o Google Play Billing ao publicar o app na loja."); }
+function anuncio() {
+  const hoje = new Date().toDateString(), a = load("mabu_ads", { d: hoje, n: 0 }); if (a.d !== hoje) { a.d = hoje; a.n = 0; }
+  if (a.n >= 3) return toast("Você já usou os 3 anúncios de hoje. Volte amanhã.");
+  let s = 5; ld(`Anúncio de demonstração… ${s}`);
+  const t = setInterval(() => { if (--s > 0) return ld(`Anúncio de demonstração… ${s}`); clearInterval(t); a.n++; save("mabu_ads", a); track("anuncio_assistido"); setCred(cred() + 1); ld(); toast("+1 crédito ganho."); go("loja"); }, 1000);
+}
+
+go("capa");
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "mabudata",
+  "version": "1.0.0",
+  "description": "MabuData: resumos e quizzes com IA a partir de PDFs",
+  "private": true,
+  "engines": { "node": ">=18" }
+}
